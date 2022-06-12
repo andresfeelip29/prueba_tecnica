@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="./bootstrap/css/bootstrap.min.css" />
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+			crossorigin="anonymous"
+		/>
+		<link rel="stylesheet" href="./css/style.css" />
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css"
+		/>
+		<title>Registro Horas Proyecto</title>
+	</head>
+	<body>
+		<!-- modal modalSuccessful -->
+		<div
+			class="modal fade"
+			id="modalSuccessful"
+			tabindex="-1"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content d-flex flex-column justify-content-center al">
+					<div class="modal-header">
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"
+						></button>
+					</div>
+					<div
+						class="modal-body d-flex flex-column justify-content-center align-content-center"
+					>
+						<div class="d-flex justify-content-center">
+							<img src="./assets/confim1.jpg" alt="confirmacio_img" />
+						</div>
+						<div class="d-flex justify-content-center">
+							<h5>La accion se realizo con exito!</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- modal modalError -->
+		<div
+			class="modal fade"
+			id="modalError"
+			tabindex="-1"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content d-flex flex-column justify-content-center al">
+					<div class="modal-header">
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"
+						></button>
+					</div>
+					<div
+						class="modal-body d-flex flex-column justify-content-center align-content-center"
+					>
+						<div class="d-flex justify-content-center">
+							<img src="./assets/error1.jpg" alt="confirmacio_img" />
+						</div>
+						<div class="d-flex justify-content-center">
+							<h5>Error no se puedo realizar la accion!</h5>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- modal guardar Empleados -->
+		<div
+			class="modal fade"
+			id="modalAgregarEmpleado"
+			tabindex="-1"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Gestionar Empleado</h5>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"
+						></button>
+					</div>
+					<div class="modal-body">
+						<h5>Ingrese los datos del Empleado</h5>
+						<form id="form-guardarEmpleado">
+							<div class="form-floating mb-3" style="display: none" id="inputId">
+								<input
+									type="number"
+									class="form-control"
+									id="idEmpleado"
+									placeholder="Identificacion"
+									required
+									disabled
+								/>
+								<label for="floatingInput">Ingrese el Id</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input
+									type="text"
+									class="form-control"
+									id="nombreEmpleado"
+									placeholder="Nombre"
+									required
+								/>
+								<label for="floatingInput">Ingrese Primer Nombre</label>
+								<div style="display: none" id="errorNombre">
+									<p style="color: red">Por favor ingrese el nombre</p>
+								</div>
+							</div>
+							<div class="form-floating mb-3">
+								<input
+									type="text"
+									class="form-control"
+									id="apellidoEmpleado"
+									placeholder="Apellido"
+									required
+								/>
+								<label for="floatingInput">Ingrese Primer Apellido</label>
+								<div style="display: none" id="errorApellido">
+									<p style="color: red">Por favor ingrese el apellido</p>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer" id="guardarEmpleado" style="display: none">
+						<button
+							type="button"
+							class="btn btn-danger"
+							data-bs-dismiss="modal"
+							onclick="limpiarModal()"
+						>
+							Salir
+						</button>
+						<button
+							type="button"
+							class="btn btn-success"
+							onclick="guardarEmpleado();limpiarModal()"
+						>
+							Guardar Empleado
+						</button>
+					</div>
+					<div class="modal-footer" id="editarEmpleado" style="display: none">
+						<button
+							type="button"
+							class="btn btn-danger"
+							data-bs-dismiss="modal"
+							onclick="limpiarModal()"
+						>
+							Salir
+						</button>
+						<button
+							type="button"
+							class="btn btn-primary"
+							onclick="editarEmpleado();limpiarModal()"
+						>
+							Editar Empleado
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- modal guardar Proyectos -->
+		<div
+			class="modal fade modalAgregarProyectos"
+			id="modalAgregarProyectos"
+			tabindex="-1"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Gestionar Proyectos</h5>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"
+						></button>
+					</div>
+					<div class="modal-body">
+						<h5>Ingrese los datos del Proyecto</h5>
+						<form id="form-guardarEmpleado">
+							<div
+								class="form-floating mb-3"
+								style="display: none"
+								id="inputIdProyecto"
+							>
+								<input
+									type="number"
+									class="form-control"
+									id="idProyecto"
+									placeholder="Ingrese el Id"
+									required
+									disabled
+								/>
+								<label for="floatingInput">Ingrese el Id</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input
+									type="text"
+									class="form-control"
+									id="nombreProyecto"
+									placeholder="Ingrese Nombre Proyecto"
+									required
+								/>
+								<label for="floatingInput">Ingrese Nombre Proyecto</label>
+								<div style="display: none" id="errorNombre">
+									<p style="color: red">
+										Por favor ingrese el nombre del Proyecto
+									</p>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer" id="guardarProyecto" style="display: none">
+						<button
+							type="button"
+							class="btn btn-danger"
+							data-bs-dismiss="modal"
+							onclick="limpiarModal()"
+						>
+							Salir
+						</button>
+						<button
+							type="button"
+							class="btn btn-success"
+							onclick="guardarProyecto();limpiarModal()"
+						>
+							Guardar Proyecto
+						</button>
+					</div>
+					<div class="modal-footer" id="editarProyecto" style="display: none">
+						<button
+							type="button"
+							class="btn btn-danger"
+							data-bs-dismiss="modal"
+							onclick="limpiarModal()"
+						>
+							Salir
+						</button>
+						<button
+							type="button"
+							class="btn btn-primary"
+							onclick="editarProyecto();limpiarModal()"
+						>
+							Editar Proyecto
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- modal guardar HorasProyectos -->
+		<div
+			class="modal fade modalAgregarHorasProyectos"
+			id="modalAgregarHorasProyectos"
+			tabindex="-1"
+			aria-labelledby="exampleModalLabel"
+			aria-hidden="true"
+		>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">
+							Gestionar Horas Proyectos
+						</h5>
+						<button
+							type="button"
+							class="btn-close"
+							data-bs-dismiss="modal"
+							aria-label="Close"
+						></button>
+					</div>
+					<div class="modal-body">
+						<h5>Ingrese Horas trabajadas por proyecto</h5>
+						<form id="form-guardarEmpleado">
+							<div
+								class="form-floating mb-3"
+								style="display: none"
+								id="inputIdHorasProyecto"
+							>
+								<input
+									type="number"
+									class="form-control"
+									id="idHorasProyecto"
+									placeholder="Ingrese el Id"
+									required
+									disabled
+								/>
+								<label for="floatingInput">Ingrese el Id</label>
+							</div>
+							<div class="form-floating mb-3">
+								<input
+									type="number"
+									class="form-control"
+									id="idHorasProyectoEmpleado"
+									placeholder="Ingrese el Id del Empleado"
+									required
+								/>
+								<label for="floatingInput">Ingrese el Id del Empleado</label>
+								<div style="display: none" id="error_id_empleado">
+									<p style="color: red">Por favor ingrese el Id del Empleado</p>
+								</div>
+							</div>
+							<div class="form-floating mb-3">
+								<input
+									type="number"
+									class="form-control"
+									id="idProyecto_Horas"
+									placeholder="Ingrese el Id del Proyecto"
+									required
+								/>
+								<label for="floatingInput">Ingrese el Id del Proyecto</label>
+								<div style="display: none" id="error_id_proyecto">
+									<p style="color: red">Por favor ingrese el Id del proyecto</p>
+								</div>
+							</div>
+							<div class="form-floating mb-3">
+								<input
+									type="datetime-local"
+									class="form-control"
+									id="fecha"
+									placeholder="Ingrese la fecha"
+									required
+								/>
+								<label for="floatingInput">Ingrese la fecha</label>
+								<div style="display: none" id="error_fecha">
+									<p style="color: red">Por favor ingrese la fecha</p>
+								</div>
+							</div>
+							<div class="form-floating mb-3">
+								<input
+									type="number"
+									class="form-control"
+									id="horas"
+									placeholder="Ingrese las horas"
+									required
+								/>
+								<label for="floatingInput">Ingrese las horas</label>
+								<div style="display: none" id="error_horas">
+									<p style="color: red">Por favor ingrese las horas</p>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer" id="guardarHorasProyecto" style="display: none">
+						<button
+							type="button"
+							class="btn btn-danger"
+							data-bs-dismiss="modal"
+							onclick="limpiarModal()"
+						>
+							Salir
+						</button>
+						<button
+							type="button"
+							class="btn btn-success"
+							onclick="guardarHorasProyecto();limpiarModal()"
+						>
+							Guardar Horas Proyecto
+						</button>
+					</div>
+					<div class="modal-footer" id="editarHorasProyecto" style="display: none">
+						<button
+							type="button"
+							class="btn btn-danger"
+							data-bs-dismiss="modal"
+							onclick="limpiarModal()"
+						>
+							Salir
+						</button>
+						<button
+							type="button"
+							class="btn btn-primary"
+							onclick="editarHorasProyecto();limpiarModal()"
+						>
+							Editar Horas Proyecto
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- nav -->
+		<div class="container-fluid shadow p-3 mb-5 bg-body">
+			<nav class="navbar">
+				<div class="container-fluid d-flex flex-row justify-content-start">
+					<a class="navbar-brand" href="#" onclick="mostrarEmpleados();listarEmpleados()">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="26"
+							height="26"
+							fill="currentColor"
+							class="bi bi-plus-circle-fill text-primary"
+							viewBox="0 0 16 16"
+						>
+							<path
+								d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
+							/>
+						</svg>
+						Agregar Empleado
+					</a>
+					<a class="navbar-brand" href="#" onclick="mostrarProyectos();listarProyectos()">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="26"
+							height="26"
+							fill="currentColor"
+							class="bi bi-plus-circle-fill text-primary"
+							viewBox="0 0 16 16"
+						>
+							<path
+								d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
+							/>
+						</svg>
+						Agregar Proyecto
+					</a>
+					<a
+						class="navbar-brand"
+						href="#"
+						onclick="mostrarHorasProyectos();listarHorasProyectos()"
+					>
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							width="26"
+							height="26"
+							fill="currentColor"
+							class="bi bi-plus-circle-fill text-primary"
+							viewBox="0 0 16 16"
+						>
+							<path
+								d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3v-3z"
+							/>
+						</svg>
+						Agregar Horas Proyecto
+					</a>
+				</div>
+			</nav>
+		</div>
+		<!-- contenedores -->
+		<!-- tabla empleados -->
+		<div
+			class="container shadow-lg p-3 mb-5 mt-5 bg-body rounded"
+			id="contenedor-tableEmpleados"
+			style="display: grid"
+		>
+			<div class="hstack gap-3">
+				<input
+					class="form-control me-auto"
+					type="text"
+					placeholder="Buscar por codigo de empleado"
+					aria-label="Buscar por codigo de empleado"
+					id="inputBuscar"
+				/>
+				<button
+					type="button"
+					class="btn btn-outline-primary"
+					id="btnBuscarEmpleado"
+					onclick="buscarEmpleado()"
+				>
+					Buscar
+				</button>
+				<div class="vr"></div>
+				<button type="button" class="btn btn-outline-success" id="btnAgregarEmpleado">
+					Agregar
+				</button>
+				<div class="vr"></div>
+				<button
+					type="button"
+					class="btn btn-outline-info"
+					id="btnListarEmpleado"
+					onclick="listarEmpleados()"
+				>
+					Listar
+				</button>
+			</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">ID</th>
+						<th scope="col">Primer Nombre</th>
+						<th scope="col">Primer Apellido</th>
+						<th scope="col">Accion</th>
+					</tr>
+				</thead>
+				<tbody id="bodyTableEmpleado"></tbody>
+			</table>
+		</div>
+
+		<!-- tabla proyectos -->
+		<div
+			class="container shadow-lg p-3 mb-5 mt-5 bg-body rounded"
+			id="contenedor-tableProyectos"
+			style="display: none"
+		>
+			<div class="hstack gap-3">
+				<input
+					class="form-control me-auto"
+					type="text"
+					placeholder="Buscar por codigo de proyecto"
+					aria-label="Buscar por codigo de proyecto"
+					id="inputBuscarProyecto"
+				/>
+				<button
+					type="button"
+					class="btn btn-outline-primary"
+					id="btnBuscarProyecto"
+					onclick="buscarProyecto()"
+				>
+					Buscar
+				</button>
+				<div class="vr"></div>
+				<button type="button" class="btn btn-outline-success" id="btnAgregarProyecto">
+					Agregar
+				</button>
+				<div class="vr"></div>
+				<button
+					type="button"
+					class="btn btn-outline-info"
+					id="btnListarProyectos"
+					onclick="listarProyectos()"
+				>
+					Listar
+				</button>
+			</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">ID</th>
+						<th scope="col">Nombre Proyectos</th>
+						<th scope="col">Accion</th>
+					</tr>
+				</thead>
+				<tbody id="bodyTableProyectos"></tbody>
+			</table>
+		</div>
+
+		<!-- tabla horas proyectos -->
+		<div
+			class="container shadow-lg p-3 mb-5 mt-5 bg-body rounded"
+			id="contenedor-tableHorasProyectos"
+			style="display: none"
+		>
+			<div class="hstack gap-3">
+				<input
+					class="form-control me-auto"
+					type="text"
+					placeholder="Buscar por codigo de Horas proyecto"
+					aria-label="Buscar por codigo de Horas proyecto"
+					id="inputBuscarHorasProyecto"
+				/>
+				<button
+					type="button"
+					class="btn btn-outline-primary"
+					id="btnBuscarHorasProyecto"
+					onclick="buscarHorasProyecto()"
+				>
+					Buscar
+				</button>
+				<div class="vr"></div>
+				<button type="button" class="btn btn-outline-success" id="btnAgregarHorasProyecto">
+					Agregar
+				</button>
+				<div class="vr"></div>
+				<button
+					type="button"
+					class="btn btn-outline-info"
+					id="btnListarHorasProyectos"
+					onclick="listarHorasProyectos()"
+				>
+					Listar
+				</button>
+			</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">ID</th>
+						<th scope="col">ID Empleado</th>
+						<th scope="col">ID Proyecto</th>
+						<th scope="col">Fecha</th>
+						<th scope="col">Horas Trabajadas</th>
+						<th scope="col">Accion</th>
+					</tr>
+				</thead>
+				<tbody id="bodyTableHorasProyectos"></tbody>
+			</table>
+		</div>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+			crossorigin="anonymous"
+		></script>
+		<script src="/bootstrap/js/bootstrap.min.js"></script>
+		<script src="./js/show_script.js"></script>
+		<script src="./js/script_empleado.js"></script>
+		<script src="./js/script_proyectos.js"></script>
+		<script src="./js/script_horasProyectos.js"></script>
+	</body>
+</html>
